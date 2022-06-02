@@ -6,7 +6,7 @@ import {
 	findAllTasks,
 	findOneTask,
 	updateTask,
-} from '../controllers/task.controller';
+} from '../controllers/task.controller.js';
 
 const router = Router();
 

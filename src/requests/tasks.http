@@ -9,9 +9,9 @@ POST http://localhost:3000/api/tasks
 Content-Type: application/json
 
 {
-  "title": "Hacer un sitio web en wordpress y Pinpoint",
+  "title": "Hacer un sitio web en Wordpress y Pinpoint",
   "description": "Trabajo freelance 3",
-  "done": true
+  "done": false
 }
 
 ###
