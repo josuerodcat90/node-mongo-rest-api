@@ -1,0 +1,31 @@
+###
+GET http://localhost:3000/api/tasks
+
+###
+GET http://localhost:3000/api/tasks/done
+
+###
+POST http://localhost:3000/api/tasks
+Content-Type: application/json
+
+{
+  "title": "Hacer un sitio web en wordpress y Pinpoint",
+  "description": "Trabajo freelance 3",
+  "done": true
+}
+
+###
+GET http://localhost:3000/api/tasks/6298bdde27d2ea7b988d22a5
+
+###
+DELETE http://localhost:3000/api/tasks/6298bdde27d2ea7b988d22a5
+
+###
+PUT http://localhost:3000/api/tasks/6298b71079b640326e25e485
+Content-Type: application/json
+
+{
+  "title": "Hacer un sitio web en Wordpress",
+  "description": "Trabajo freelance none",
+  "done": false
+}
