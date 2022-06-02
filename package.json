@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Simple Node-MongoDB REST API",
   "main": "index.js",
+  "node_version": ">=0.10.0",
   "scripts": {
     "dev": "nodemon src/index.js --exec babel-node",
     "build": "babel src --out-dir dist",
