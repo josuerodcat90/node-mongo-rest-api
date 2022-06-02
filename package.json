@@ -4,10 +4,11 @@
   "description": "Simple Node-MongoDB REST API",
   "main": "index.js",
   "scripts": {
+    "clean": "rm -rf dist && mkdir dist",
     "dev": "nodemon src/index.js --exec babel-node",
-    "build": "babel src --out-dir dist",
-    "start": "node dist/index.js",
-    "clean": "rimraf dist"
+    "build-babel": "babel src --out-dir dist",
+    "build": "npm run clean && npm run build-babel",
+    "start": "npm run build && node dist/index.js"
   },
   "keywords": [
     "mongodb",
