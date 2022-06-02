@@ -17,8 +17,8 @@
     "express",
     "node"
   ],
-  "author": "",
-  "license": "ISC",
+  "author": "Josue Rodriguez",
+  "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
