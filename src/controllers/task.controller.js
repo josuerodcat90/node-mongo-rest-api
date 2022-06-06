@@ -2,9 +2,14 @@ import Task from '../models/Task.js';
 
 export const findAllTasks = async (req, res) => {
 	try {
-		const tasks = await Task.find();
+		const tasks = await Task.findAll({
+			order: [['createdAt', 'ASC']],
+		});
 
-		res.json(tasks);
+		res.json({
+			count: tasks.length,
+			tasks,
+		});
 	} catch (error) {
 		res.status(500).json({
 			message: error.message || 'An error occurred while retrieving tasks',
@@ -14,7 +19,10 @@ export const findAllTasks = async (req, res) => {
 
 export const findAllDoneTasks = async (req, res) => {
 	try {
-		const tasks = await Task.find({ done: true });
+		const tasks = await Task.findAll({
+			where: { done: true },
+			order: [['createdAt', 'ASC']],
+		});
 
 		res.json(tasks);
 	} catch (error) {
@@ -28,11 +36,18 @@ export const findOneTask = async (req, res) => {
 	try {
 		const { id } = req.params;
 
-		const task = await Task.findById(id);
+		const task = await Task.findAll({
+			where: { id },
+		});
+
+		// tambien se puede hacer asi:
+		/**
+		 * const task = await Task.findByPk(id); // findByPk busca por primary key
+		 */
 
 		if (!task) {
 			return res.status(404).json({
-				message: `Task with ${id} does not exists`,
+				message: `Task with id: ${id} does not exists`,
 			});
 		}
 
@@ -51,19 +66,14 @@ export const createTask = async (req, res) => {
 		return res.status(400).json({ message: 'Title is required' });
 	}
 
+	await Task.sync({ force: false });
+
+	const { title, description, done } = req.body;
+
 	try {
-		const newTask = new Task({
-			title: req.body.title,
-			description: req.body.description,
-			done: req.body.done ? req.body.done : false,
-		});
+		const task = await Task.create({ title, description, done });
 
-		const taskSaved = await newTask.save();
-
-		res.json({
-			message: 'New task created!',
-			taskCreated: taskSaved,
-		});
+		res.status(200).json(task);
 	} catch (error) {
 		res.status(500).json({
 			message: error.message || 'An error occurred while creating the task',
@@ -72,21 +82,32 @@ export const createTask = async (req, res) => {
 };
 
 export const updateTask = async (req, res) => {
-	try {
-		const task = await Task.findByIdAndUpdate(
-			req.params.id,
-			{
-				title: req.body.title,
-				description: req.body.description,
-				done: req.body.done,
-			},
-			{ new: true }
-		);
+	const { id } = req.params;
+	const { title, description, done } = req.body;
 
-		res.json({
-			message: 'Task updated!',
-			taskUpdated: task,
-		});
+	try {
+		const task = await Task.findByPk(id);
+
+		if (!task) {
+			return res.status(404).json({
+				message: `Task with id: ${id} does not exists`,
+			});
+		} else {
+			await Task.update(
+				{
+					title,
+					description,
+					done,
+				},
+				{
+					where: { id },
+				}
+			);
+
+			res.json({
+				message: `Task with id: ${id} updated!`,
+			});
+		}
 	} catch (error) {
 		res.status(500).json({
 			message: error.message || 'An error occurred while updating the task',
@@ -98,12 +119,19 @@ export const deleteTask = async (req, res) => {
 	const { id } = req.params;
 
 	try {
-		const task = await Task.findByIdAndDelete(id);
+		const task = await Task.findByPk(id);
 
-		res.json({
-			message: 'Task deleted!',
-			taskDeleted: task,
-		});
+		if (!task) {
+			return res.status(404).json({
+				message: `Task with id: ${id} does not exists`,
+			});
+		} else {
+			await Task.destroy();
+
+			res.json({
+				message: `Task with id: ${id} was deleted!`,
+			});
+		}
 	} catch (error) {
 		res.status(500).json({
 			message:

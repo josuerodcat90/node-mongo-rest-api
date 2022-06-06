@@ -1,28 +1,33 @@
-import mongoose from 'mongoose';
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../database.js';
 
-const Schema = mongoose.Schema;
-
-const TaskSchema = new Schema(
+const Task = sequelize.define(
+	'Task',
 	{
+		id: {
+			type: 'UNIQUEIDENTIFIER',
+			defaultValue: DataTypes.UUIDV4,
+			primaryKey: true,
+		},
 		title: {
-			type: String,
-			required: true,
-			trim: true,
+			type: DataTypes.STRING,
+			allowNull: false,
 		},
 		description: {
-			type: String,
-			required: false,
-			trim: true,
+			type: DataTypes.STRING(400),
+			allowNull: true,
 		},
 		done: {
-			type: Boolean,
-			default: false,
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+			defaultValue: false,
 		},
 	},
 	{
 		timestamps: true,
-		versionKey: false,
+		freezeTableName: true,
+		tableName: 'Task',
 	}
 );
 
-export default mongoose.model('Task', TaskSchema);
+export default Task;

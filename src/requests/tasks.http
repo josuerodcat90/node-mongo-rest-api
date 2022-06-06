@@ -1,31 +1,31 @@
-###
+### find all
 GET http://localhost:3000/api/tasks
 
-###
+### by property 'done' was true
 GET http://localhost:3000/api/tasks/done
 
-###
+### by ID
+GET http://localhost:3000/api/tasks/3482761A-0DE3-4E17-981B-6161CCF8ED17
+
+### adding a new Task
 POST http://localhost:3000/api/tasks
 Content-Type: application/json
 
 {
   "title": "Hacer un sitio web en Wordpress y Pinpoint",
-  "description": "Trabajo freelance 3",
+  "description": "Trabajo freelance 4",
   "done": false
 }
 
-###
-GET http://localhost:3000/api/tasks/6298bdde27d2ea7b988d22a5
-
-###
-DELETE http://localhost:3000/api/tasks/6298bdde27d2ea7b988d22a5
-
-###
-PUT http://localhost:3000/api/tasks/6298b71079b640326e25e485
+### updating a Task by ID
+PUT http://localhost:3000/api/tasks/74295DB2-35AA-4DCB-AA13-DDF0DB901F9C
 Content-Type: application/json
 
 {
-  "title": "Hacer un sitio web en Wordpress",
-  "description": "Trabajo freelance none",
-  "done": false
+  "title": "Hacer un sitio web en Wordpress y Pinpoint",
+  "description": "Trabajo freelance 4 updated",
+  "done": true
 }
+
+### deleting a Task by ID
+DELETE http://localhost:3000/api/tasks/5
