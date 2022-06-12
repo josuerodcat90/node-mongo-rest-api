@@ -4,11 +4,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 
 import { ApolloServer } from 'apollo-server-express';
-import taskResolver from './graphql/resolvers/Task.js';
-import taskTypes from './graphql/schemas/Task.js';
-
-import { mergeResolvers } from '@graphql-tools/merge';
-import { mergeTypeDefs } from '@graphql-tools/merge';
+import { typeDefs, resolvers } from './graphql/index.js';
 
 import config from './config.js';
 
@@ -33,10 +29,6 @@ app.use(
 //app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-//Merge Typedefs and Resolvers
-const resolvers = mergeResolvers([taskResolver]);
-const typeDefs = mergeTypeDefs([taskTypes]);
 
 //Apollo Server
 const server = new ApolloServer({
